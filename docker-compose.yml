@@ -1,0 +1,49 @@
+services:
+  webserver:
+    image: "moodlehq/moodle-php-apache:8.3"
+    depends_on:
+      - db
+      - mailpit
+    volumes:
+      - "./moodle:/var/www/html"
+      - "./assets/web/apache2_faildumps.conf:/etc/apache2/conf-enabled/moodle-faildump.conf"
+      - "./assets/web/apache2_mailpit.conf:/etc/apache2/conf-enabled/apache2_mailpit.conf"
+      - "./config.docker-template.php:/var/www/html/config.php"
+    environment:
+      MOODLE_DOCKER_RUNNING: 1
+      MOODLE_DOCKER_DBNAME: ${DB_NAME}
+      MOODLE_DOCKER_DBUSER: ${DB_USER}
+      MOODLE_DOCKER_DBPASS: ${DB_PASSWORD}
+      MOODLE_DOCKER_BROWSER: "firefox"
+      MOODLE_DOCKER_WEB_HOST: ${WEB_HOST}
+      MOODLE_DOCKER_TIMEOUT_FACTOR: "1"
+      MOODLE_DOCKER_WEB_PORT: ${WEB_PORT}
+      MOODLE_DOCKER_DBTYPE: "pgsql"
+    ports:
+      - "${WEB_PORT}:80"
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432/tcp"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  mailpit:
+    image: axllent/mailpit:v1.10
+    environment:
+      MP_WEBROOT: /_/mail/
+  exttests:
+    image: moodlehq/moodle-exttests
+    volumes:
+      - "./assets/exttests/apache2_ports.conf:/etc/apache2/ports.conf"
+      - "./assets/exttests/apache2.conf:/etc/apache2/sites-enabled/000-default.conf"
+  selenium:
+    image: "selenium/standalone-firefox:4"
+    volumes:
+      - "./moodle:/var/www/html:ro"
+
+volumes:
+  pgdata:

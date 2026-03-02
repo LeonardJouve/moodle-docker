@@ -9,6 +9,7 @@ services:
       - "./assets/web/apache2_faildumps.conf:/etc/apache2/conf-enabled/moodle-faildump.conf"
       - "./assets/web/apache2_mailpit.conf:/etc/apache2/conf-enabled/apache2_mailpit.conf"
       - "./config.docker-template.php:/var/www/html/config.php"
+      - "./moodle-local_codechecker:/var/www/html/public/local/codechecker"
     environment:
       MOODLE_DOCKER_RUNNING: 1
       MOODLE_DOCKER_DBNAME: ${DB_NAME}

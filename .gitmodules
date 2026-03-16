@@ -1,10 +1,10 @@
-[submodule "moodle"]
-	path = moodle
-	url = git://git.moodle.org/moodle.git
-	branch = MOODLE_501_STABLE
 [submodule "moodle-local_codechecker"]
 	path = moodle-local_codechecker
 	url = git@github.com:moodlehq/moodle-local_codechecker.git
 [submodule "moodle-tool_pluginskel"]
 	path = moodle-tool_pluginskel
 	url = git@github.com:mudrd8mz/moodle-tool_pluginskel.git
+[submodule "moodle"]
+	path = moodle
+	url = git@github.com:moodle/moodle.git
+	branch = MOODLE_405_STABLE

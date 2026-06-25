@@ -1,6 +1,7 @@
 services:
   webserver:
     image: "moodlehq/moodle-php-apache:8.3"
+    entrypoint: "/usr/local/etc/entrypoint.sh"
     depends_on:
       - db
       - mailpit
@@ -9,6 +10,7 @@ services:
       - "./assets/web/apache2_faildumps.conf:/etc/apache2/conf-enabled/moodle-faildump.conf"
       - "./assets/web/apache2_mailpit.conf:/etc/apache2/conf-enabled/apache2_mailpit.conf"
       - "./config.docker-template.php:/var/www/html/config.php"
+      - "./entrypoint.sh:/usr/local/etc/entrypoint.sh"
       - "./moodle-local_codechecker:/var/www/html/public/local/codechecker"
       - "./moodle-tool_pluginskel:/var/www/html/public/admin/tool/pluginskel"
     environment:
